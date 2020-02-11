@@ -10,7 +10,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
           </li>
           <li>
-            <img src="<?php echo base_url() ?>assets/icon/ckb.jpg" alt="AdminLTE Logo" class="brand-image" width='250px' height='40px'>
+            <img src="<?php echo base_url() ?>assets/icon/ckb.jpg" alt="CKB Interface" class="brand-image" width='250px' height='40px'>
           </li>
           <!-- <li class="nav-item d-none d-sm-inline-block">
             <a href="index3.html" class="nav-link">Home</a>
