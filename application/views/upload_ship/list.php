@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-dark">History File Excel</h1>
+        <h1 class="m-0 text-dark">Ship To Party</h1>
       </div><!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -24,7 +24,7 @@
     <div class="col-12">      
       <div class="row">
         <div class="col-2" align="left">
-          <a href="<?php echo base_url().'upload/form'?>" class="btn btn-block bg-gradient-info btn-md"><i class="fa fa-plus"></i> Upload</a>
+          <a href="<?php echo base_url().'upload_ship/form'?>" class="btn btn-block bg-gradient-info btn-md"><i class="fa fa-plus"></i> Upload Data</a>
         </div>
         <div class="col-2" align="left">
         <a href="<?php echo base_url("excel/format/format.xlsx"); ?>" class="btn btn-block bg-gradient-success btn-md"><i class="fa fa-download"></i> Download Format</a>
@@ -33,7 +33,7 @@
       <hr/>
       <div class="card card-primary">
         <div class="card-header">
-          <h3 class="card-title">Data History File Excel</h3>
+          <h3 class="card-title">Data Ship To Party</h3>
         </div>
         <!-- /.card-header -->
         <div class="card-body">
@@ -57,13 +57,13 @@
                   <td><?=$row->filename?></td>
                   <td><?=$row->nama?></td>
                   <td><?=$row->created_at?></td>
-                  <td><?=$row->dn_count?></td>
+                  <td><?=$row->rows?></td>
                   <td>
                     <div class="btn-group">
-                      <a href="<?php echo site_url('upload/detail/'. $row->id_upload); ?>" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
+                      <a href="<?php echo site_url('upload_ship/detail/'. $row->id_upload); ?>" class="btn btn-info"><i class="fa fa-info-circle"></i> Info</a>
                     </div>
                     <div class="btn-group">
-                      <a href="<?php echo site_url('upload/delete/'. $row->id_upload); ?>" onclick="return confirm('Yakin Hapus?')" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
+                      <a href="<?php echo site_url('upload_ship/delete/'. $row->id_upload); ?>" onclick="return confirm('Yakin Hapus?')" class="btn btn-danger"><i class="fa fa-trash-o"></i> Delete</a>
                     </div>
                   </td>
                 </tr>

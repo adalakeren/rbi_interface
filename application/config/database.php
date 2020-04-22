@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
+	'hostname' => '10.144.250.6',
 	'username' => 'root',
-	'password' => '',
-	'database' => 'ckb_interface',
+	'password' => 'ckbitd',
+	'database' => 'db_rbi_interface',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -94,3 +94,41 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
+
+/*$db['db_fast'] = array(
+	'dsn'	=> '',
+	'hostname' => '10.144.250.4',
+	'username' => 'fast2',
+	'password' => 'aceleramiento',
+	'database' => 'fast',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);*/
+
+/*$db['db_fast']['hostname'] = '10.144.250.4';
+$db['db_fast']['username'] = 'fast2';
+$db['db_fast']['password'] = 'aceleramiento';
+$db['db_fast']['database'] = 'fast';
+$db['db_fast']['dbdriver'] = 'mysql';
+$db['db_fast']['dbprefix'] = '';
+$db['db_fast']['pconnect'] = TRUE;
+$db['db_fast']['db_debug'] = TRUE;
+$db['db_fast']['cache_on'] = FALSE;
+$db['db_fast']['cachedir'] = '';
+$db['db_fast']['char_set'] = 'utf8';
+$db['db_fast']['dbcollat'] = 'utf8_general_ci';
+$db['db_fast']['swap_pre'] = '';
+$db['db_fast']['autoinit'] = FALSE;
+$db['db_fast']['stricton'] = FALSE;*/

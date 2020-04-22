@@ -36,7 +36,15 @@
             <a href="<?php echo base_url().'upload'?>" class="nav-link">
               <i class="nav-icon far fa fa-file-excel-o"></i>
               <p>
-                Upload Excel
+                Upload DN Number
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="<?php echo base_url().'upload_ship'?>" class="nav-link">
+              <i class="nav-icon far fa fa-file-excel-o"></i>
+              <p>
+                Upload Ship To Party
               </p>
             </a>
           </li>

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Upload extends CI_Controller {
+class Upload_ship extends CI_Controller {
 
     function __construct(){
         parent::__construct();
@@ -13,9 +13,9 @@ class Upload extends CI_Controller {
 
     public function index()
     {
-        $data['dataUpload'] = $this->M_upload->get_upload()->result();
+        $data['dataUpload'] = $this->M_upload->get_upload_ship_party()->result();
         //var_dump($data['dataUpload']);die;
-        $data['pageContent'] = 'upload/list';
+        $data['pageContent'] = 'upload_ship/list';
 
         if($this->session->userdata('akses') == 'admin'){
             $this->load->view('layout_admin', $data);
@@ -46,7 +46,7 @@ class Upload extends CI_Controller {
                 $sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
 
                 // Validasi Format
-                if ($sheet[1]['A'] == 'TO CR.DATE' && $sheet[1]['B'] == 'DO Num' && $sheet[1]['C'] == 'Customer Name' && $sheet[1]['D'] == 'Ship To Party' && $sheet[1]['E'] == '50005 A' && $sheet[1]['F'] == '50004 B' && $sheet[1]['G'] == '50003 C' && $sheet[1]['H'] == '50002 D' && $sheet[1]['I'] == '50001 E' && $sheet[1]['J'] == '50010 F') {
+                if ($sheet[1]['A'] == 'Cl.' && $sheet[1]['B'] == 'Ship to Party' && $sheet[1]['C'] == 'Address' && $sheet[1]['D'] == 'Cty' && $sheet[1]['E'] == 'Customer Name' && $sheet[1]['F'] == 'Address line 1' && $sheet[1]['G'] == 'Address line 1' && $sheet[1]['H'] == 'City' && $sheet[1]['I'] == 'PostalCode' && $sheet[1]['J'] == 'Telephone 1') {
                     // Masukan variabel $sheet ke dalam array data yang nantinya akan di kirim ke file form.php
                     // Variabel $sheet tersebut berisi data-data yang sudah diinput di dalam excel yang sudha di upload sebelumnya
                     $data['file_name'] = $upload['file']['file_name'];
@@ -60,7 +60,7 @@ class Upload extends CI_Controller {
             }
         }
 
-        $data['pageContent'] = 'upload/form';
+        $data['pageContent'] = 'upload_ship/form';
         if($this->session->userdata('akses') == 'admin'){
             $this->load->view('layout_admin', $data);
         }else{
@@ -86,7 +86,7 @@ class Upload extends CI_Controller {
             'created_at' => date('Y-m-d H:i:s')
         ];
 
-        $this->db->insert('upload', $data);
+        $this->db->insert('upload_ship', $data);
         $id_upload = $this->db->insert_id();        
         
         // Buat sebuah variabel array untuk menampung array data yg akan kita insert ke database
@@ -99,81 +99,39 @@ class Upload extends CI_Controller {
             // Jadi dilewat saja, tidak usah diimport
             if($numrow > 1){
                 // Kita push (add) array data ke variabel data
-                $s1 = $row['E']; // Ambil data s1
-	            $s2 = $row['F']; // Ambil data s2
-	            $m1 = $row['G']; // Ambil data m
-	            $m2 = $row['H']; // Ambil data m
-	            $l = $row['I']; // Ambil data l
-	            $pallet = $row['J']; // Ambil data pallet
+                $ci = $row['A']; // Ambil data s1
+                $ship_to_party = $row['B']; // Ambil data s2
+                $addrees_code = $row['C']; // Ambil data m
+                $country = $row['D']; // Ambil data m
+                $customer_name = $row['E']; // Ambil data l
+                $addres_line1 = $row['F']; // Ambil data pallet
+                $addres_line2 = $row['G']; // Ambil data pallet
+                $city = $row['H']; // Ambil data pallet
+                $postal_code = $row['I']; // Ambil data pallet
+                $telpon = $row['J']; // Ambil data pallet
 
-                if($s1 != ""){
-                  $s = $s1;
-                }
-                else if($s2 != ""){
-                  $s = $s2;
-                }
-                else{
-                  $s = "";
-                }
-
-                if($m1 != ""){
-                  $m = $m1;
-                }
-                else if($m2 != ""){
-                  $m = $m2;
-                }
-                else{
-                  $m = "";
-                }
-
-                if(!empty($row['A'])){
-                    $get_data_upload = $this->M_upload->getDataUpload($row['B']);
-
-                    $data_arr = array(
-                        'id_user' => $this->session->userdata('id_user'),
-                        'id_upload' => $id_upload,
-                        'cr_date'=>$row['A'], // Insert data no dari kolom A di excel
-                        'kode_customer'=>$row['D'], // Insert data kode_customer dari kolom B di excel
-                        'nama_customer'=>$row['C'], // Insert data nama_customer dari kolom C di excel
-                        'dn'=>$row['B'], // Insert data dn dari kolom D di excel
-                        //'tujuan'=>$row['E'], // Insert data tujuan dari kolom E di excel
-                        'pallet'=> $pallet, // Insert data pallet dari kolom F di excel
-                        's'=>$s, // Insert data s dari kolom G di excel
-                        'm'=>$m, // Insert data m dari kolom H di excel
-                        'l'=>$l, // Insert data l dari kolom I di excel
-                        'total_coli'=>($s+$m+$l+$pallet) // Insert data total_coli dari kolom J di excel
-                    );
-                    if(empty($get_data_upload->dn)){
-                        $this->M_upload->insert_multiple($data_arr);
-                        /*array_push($data, array(
-                            'id_user' => $this->session->userdata('id_user'),
-                            'id_upload' => $id_upload,
-                            'no'=>$row['A'], // Insert data no dari kolom A di excel
-                            'kode_customer'=>$row['D'], // Insert data kode_customer dari kolom B di excel
-                            'nama_customer'=>$row['C'], // Insert data nama_customer dari kolom C di excel
-                            'dn'=>$row['B'], // Insert data dn dari kolom D di excel
-                            'tujuan'=>$row['E'], // Insert data tujuan dari kolom E di excel
-                            'pallet'=> ($s+$m+$l+$pallet), // Insert data pallet dari kolom F di excel
-                            's'=>$s, // Insert data s dari kolom G di excel
-                            'm'=>$m, // Insert data m dari kolom H di excel
-                            'l'=>$l, // Insert data l dari kolom I di excel
-                            //'total_coli'=>$row['J'], // Insert data total_coli dari kolom J di excel
-                        ));*/
-                    }
-                    else{
-                        $data_s      = $get_data_upload->s;
-                        $data_m      = $get_data_upload->m;
-                        $data_l      = $get_data_upload->l;
-                        $data_pallet = $get_data_upload->pallet;
-
-                        $total_koli = $data_s+$data_m+$data_l+$data_pallet;
-
-                        if($total_koli == 0){
-                            $this->M_upload->update_multiple($data_arr, $row['B']);
-                        }
-                    }
-                }
                 
+                $get_data_upload = $this->M_upload->getDataUploadShip($ship_to_party);
+                
+                $data_arr = array(
+                    'id_upload' => $id_upload,
+                    'ship_to_party'=>$ship_to_party, // Insert data no dari kolom A di excel
+                    'country'=>$country, // Insert data kode_customer dari kolom B di excel
+                    'customer_name'=>$customer_name, // Insert data nama_customer dari kolom C di excel
+                    'addres1'=>$addres_line1, // Insert data dn dari kolom D di excel
+                    'addres2'=> $addres_line2, // Insert data pallet dari kolom F di excel
+                    'city'=>$city, // Insert data s dari kolom G di excel
+                    'postal_code'=>$postal_code, // Insert data m dari kolom H di excel
+                    'telephone'=>$telpon, // Insert data l dari kolom I di excel
+                    'date_created'=> date('Y-m-d'),
+                    'user_created'=> $this->session->userdata('id_user') // Insert data total_coli dari kolom J di excel
+                );
+                if(empty($get_data_upload->ship_to_party)){
+                    $this->M_upload->insert_ship_to_party($data_arr);
+                }
+                else{
+                    $this->M_upload->update_ship_to_party($data_arr, $ship_to_party);
+                }
             }
             
             $numrow++; // Tambah 1 setiap kali looping
@@ -187,7 +145,7 @@ class Upload extends CI_Controller {
         $this->kirim_email($email, $filename);
 
         $this->session->set_flashdata("pesan", "<div class=\"col-md-12\"><div class=\"alert alert-success\" id=\"alert\">Upload File Berhasil !!</div></div>");
-        redirect("upload"); // Redirect ke halaman awal (ke controller siswa fungsi index)
+        redirect("upload_ship"); // Redirect ke halaman awal (ke controller siswa fungsi index)
     }
 
     public function kirim_email($email, $filename){
@@ -229,8 +187,10 @@ class Upload extends CI_Controller {
 
     public function detail($id_upload)
     {
-        $data['detaildata'] = $this->M_upload->getDetailUpload($id_upload)->result();
-        $data['pageContent'] = 'upload/detail';
+        $data['detaildata'] = $this->M_upload->getDetailUploadShip($id_upload)->result();
+
+
+        $data['pageContent'] = 'upload_ship/detail';
 
         if($this->session->userdata('akses') == 'admin'){
             $this->load->view('layout_admin', $data);
@@ -241,11 +201,11 @@ class Upload extends CI_Controller {
 
     public function delete($id_upload)
     {
-        $this->db->delete('upload', array('id_upload' => $id_upload));
-        $this->db->delete('detail_upload', array('id_upload' => $id_upload));
+        $this->db->delete('upload_ship', array('id_upload' => $id_upload));
+        $this->db->delete('ship_to_party', array('id_upload' => $id_upload));
 
         $this->session->set_flashdata("pesan", "<div class=\"col-md-12\"><div class=\"alert alert-danger\" id=\"alert\">Hapus File Berhasil !!</div></div>");
-        redirect('upload', 'refresh'); 
+        redirect('upload_ship', 'refresh'); 
     }
 
     public function back()
@@ -255,8 +215,8 @@ class Upload extends CI_Controller {
                 // chmod($file_path, 0777);
                 // unlink($file_path);
 
-        $data['dataUpload'] = $this->M_upload->get_upload()->result();
-        $data['pageContent'] = 'upload/list';
+        $data['dataUpload'] = $this->M_upload->get_upload_ship_party()->result();
+        $data['pageContent'] = 'upload_ship/list';
 
         if($this->session->userdata('akses') == 'admin'){
             $this->load->view('layout_admin', $data);
@@ -264,4 +224,5 @@ class Upload extends CI_Controller {
             $this->load->view('layout', $data);
         }       
     }
+    
 }
